@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FFR_sample</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+</resources>
