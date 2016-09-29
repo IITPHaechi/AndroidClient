@@ -7,10 +7,10 @@ just practice
 
 
  
- ## Geusan Lim(Jacob)
+### Geusan Lim(Jacob)
  - Studying about Streaming service.
  
  
- ## Cholmin Kang(Steve)
+### Cholmin Kang(Steve)
  - Joystick for moving machine
  - VieoView for streaming from web url
