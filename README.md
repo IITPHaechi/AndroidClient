@@ -7,7 +7,7 @@ just practice
  
  
  ##Geusan Lim(Jacob)
- - Studying about Streaming service
+ - Studying about Streaming service.
  
  ##Cholmin Kang(Steve)
  - Joystick for moving machine
