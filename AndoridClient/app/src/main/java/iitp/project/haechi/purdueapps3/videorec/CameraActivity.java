@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3;
+package iitp.project.haechi.purdueapps3.videorec;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import iitp.project.haechi.purdueapps3.R;
 
 public class CameraActivity extends AppCompatActivity {
 

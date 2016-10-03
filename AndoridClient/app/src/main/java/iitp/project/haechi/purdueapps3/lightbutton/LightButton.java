@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3;
+package iitp.project.haechi.purdueapps3.lightbutton;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import iitp.project.haechi.purdueapps3.R;
 import iitp.project.haechi.purdueapps3.retrofit.Connector;
 import retrofit2.Call;
 import retrofit2.Callback;

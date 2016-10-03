@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import iitp.project.haechi.purdueapps3.cameraproject.CameraMasterMain;
+import iitp.project.haechi.purdueapps3.lightbutton.LightButton;
+import iitp.project.haechi.purdueapps3.videorec.CameraActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btnCameraServer:
                     intent = new Intent(MainActivity.this, CameraMasterMain.class);
                     break;
-
+                case R.id.btnRobotController:
+                    intent = new Intent(MainActivity.this, JoyStickActivity.class);
+                    break;
             }
             startActivity(intent);
         }
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnCamera).setOnClickListener(bHandler);
         findViewById(R.id.btnVideo).setOnClickListener(bHandler);
         findViewById(R.id.btnCameraServer).setOnClickListener(bHandler);
-
+        findViewById(R.id.btnRobotController).setOnClickListener(bHandler);
     }
 
 }

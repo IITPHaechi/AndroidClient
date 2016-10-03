@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3;
+package iitp.project.haechi.purdueapps3.videorec;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import iitp.project.haechi.purdueapps3.R;
 
 /**
  * Created by dnay2 on 2016-09-26.

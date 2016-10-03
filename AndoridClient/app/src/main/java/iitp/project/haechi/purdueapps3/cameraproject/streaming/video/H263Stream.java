@@ -20,14 +20,14 @@
 
 package iitp.project.haechi.purdueapps3.cameraproject.streaming.video;
 
-import java.io.IOException;
-
-import net.majorkernelpanic.streaming.SessionBuilder;
-import net.majorkernelpanic.streaming.rtp.H263Packetizer;
 import android.graphics.ImageFormat;
 import android.hardware.Camera.CameraInfo;
 import android.media.MediaRecorder;
 import android.service.textservice.SpellCheckerService.Session;
+
+import java.io.IOException;
+
+import iitp.project.haechi.purdueapps3.cameraproject.streaming.rtp.H263Packetizer;
 
 /**
  * A class for streaming H.263 from the camera of an android device using RTP.

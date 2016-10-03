@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3;
+package iitp.project.haechi.purdueapps3.videoview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -22,4 +22,6 @@ public class MyVideoView extends VideoView {
     public MyVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+
 }

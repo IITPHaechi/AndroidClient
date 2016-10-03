@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3;
+package iitp.project.haechi.purdueapps3.videorec;
 
 import android.content.Context;
 import android.hardware.Camera;
