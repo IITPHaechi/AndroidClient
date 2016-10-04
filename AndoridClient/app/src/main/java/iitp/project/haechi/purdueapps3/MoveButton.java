@@ -22,7 +22,7 @@ public class MoveButton extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.move_button);
         findViewById(R.id.up).setTag("up");
         findViewById(R.id.down).setTag("down");
         findViewById(R.id.right).setTag("right");

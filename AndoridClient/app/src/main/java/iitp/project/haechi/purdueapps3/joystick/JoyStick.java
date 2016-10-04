@@ -22,19 +22,24 @@ public class JoyStick extends View {
 
 
     JoyStickListener listener;
+
     Paint paint;
     float width;
     float height;
-    float centerX;
-    float centerY;
-    float min;
-    float posX;
-    float posY;
-    float radius;
+    float centerX; //width/2
+    float centerY; // height/2
+    float min; //너비||높이 최소값
+    float posX; // joystick position X
+    float posY; //joystick position Y
+    float radius; //
     float buttonRadius;
+    float sensitiveRange;
+    float abs;
     double power = -1;
     double angle = -1;
     RectF temp;
+
+    boolean touchDown = false;
 
     //Background Color
     int padColor;
@@ -107,13 +112,16 @@ public class JoyStick extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
-        centerX = width/2;
-        centerY = height/2;
+        centerX = width / 2;
+        centerY = height / 2;
         min = Math.min(width, height);
         posX = centerX;
         posY = centerY;
-        buttonRadius = (min / 2f * (percentage/100f));
-        radius = (min / 2f * ((100f-percentage)/100f));
+        buttonRadius = (min / 2f * (percentage / 100f));
+        radius = (min / 2f * ((100f - percentage) / 100f));
+        sensitiveRange = (float) Math.sqrt((posX - centerX) * (posX - centerX)
+                + (posY - centerY) * (posY - centerY)) * (percentage / 50f);
+
     }
 
     @Override
@@ -143,9 +151,9 @@ public class JoyStick extends View {
             case MotionEvent.ACTION_MOVE:
                 posX = event.getX();
                 posY = event.getY();
-                float abs = (float) Math.sqrt((posX - centerX) * (posX - centerX)
+                abs = (float) Math.sqrt((posX - centerX) * (posX - centerX)
                         + (posY - centerY) * (posY - centerY));
-                if (abs > radius) {
+                if (abs > sensitiveRange) {
                     posX = ((posX - centerX) * radius / abs + centerX);
                     posY = ((posY - centerY) * radius / abs + centerY);
                 }
@@ -157,6 +165,7 @@ public class JoyStick extends View {
                         * (posY - centerY)) / radius);
 
                 invalidate();
+                touchDown = true;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -167,12 +176,13 @@ public class JoyStick extends View {
                     power = 0;
                     invalidate();
                 }
-                break;
+                touchDown = false;
+                return false;
         }
 
-        if (listener != null) {
-            listener.onMove(this, angle, power);
-        }
+//        if (listener != null && abs > sensitiveRange) {
+//            listener.onMove(this, angle, power);
+//        }
 
         return true;
     }
@@ -190,7 +200,8 @@ public class JoyStick extends View {
     }
 
     public double getPower() {
-        return power;}
+        return power;
+    }
 
     public double getAngle() {
         return angle;
@@ -219,4 +230,13 @@ public class JoyStick extends View {
     public void setButtonDrawable(int resId) {
         this.buttonBitmap = BitmapFactory.decodeResource(getResources(), resId);
     }
+
+    public boolean getTouchDown(){
+        return touchDown;
+    }
+
+    public boolean getListener(){
+        return listener != null;
+    }
+
 }

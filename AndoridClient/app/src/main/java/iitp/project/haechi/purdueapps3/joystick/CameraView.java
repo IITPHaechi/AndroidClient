@@ -144,7 +144,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         this.power = power;
 
         if (System.currentTimeMillis() > untilTime) {
-
             if (angle >= 0.1) {
                 movingRobot(isLeft, duration, stopORmove);
                 untilTime = System.currentTimeMillis() + hz;
@@ -156,9 +155,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
             Log.d("test", "moved");
         }
-
-
-
     }
 
     public void rotate(double angle2) {

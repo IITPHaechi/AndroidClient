@@ -3,9 +3,6 @@ package iitp.project.haechi.purdueapps3;
 import android.app.Application;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,15 +28,10 @@ public class ApplicationController extends Application{
     }
     private void buildService(){
         synchronized (ApplicationController.class){
-            Gson gson = new GsonBuilder()
-                    .create();
-            GsonConverterFactory factory = GsonConverterFactory.create(gson);
-
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(baseURL)
-                    .addConverterFactory(factory)
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
 
             networkService = retrofit.create(NetworkService.class);
         }
