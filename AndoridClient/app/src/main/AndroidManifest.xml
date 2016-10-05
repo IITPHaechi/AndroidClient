@@ -46,9 +46,12 @@
         <activity android:name=".lightbutton.LightButton" />
         <activity android:name=".MoveButton" />
         <activity
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".JoyStickActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SocketAction"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -21,8 +21,6 @@ import iitp.project.haechi.purdueapps3.R;
 public class JoyStick extends View {
 
 
-    JoyStickListener listener;
-
     Paint paint;
     float width;
     float height;
@@ -59,9 +57,8 @@ public class JoyStick extends View {
     //Button Bitmap
     Bitmap buttonBitmap = null;
 
-    public interface JoyStickListener {
-        void onMove(JoyStick joyStick, double angle, double power);
-    }
+    //JoystickManager
+    JoystickManager mJoystickManager;
 
     public JoyStick(Context context) {
         super(context);
@@ -105,6 +102,8 @@ public class JoyStick extends View {
                 typedArray.recycle();
             }
         }
+
+
     }
 
     @Override
@@ -179,11 +178,6 @@ public class JoyStick extends View {
                 touchDown = false;
                 return false;
         }
-
-//        if (listener != null && abs > sensitiveRange) {
-//            listener.onMove(this, angle, power);
-//        }
-
         return true;
     }
 
@@ -195,9 +189,6 @@ public class JoyStick extends View {
         this.buttonColor = buttonColor;
     }
 
-    public void setListener(JoyStickListener listener) {
-        this.listener = listener;
-    }
 
     public double getPower() {
         return power;
@@ -233,10 +224,6 @@ public class JoyStick extends View {
 
     public boolean getTouchDown(){
         return touchDown;
-    }
-
-    public boolean getListener(){
-        return listener != null;
     }
 
 }

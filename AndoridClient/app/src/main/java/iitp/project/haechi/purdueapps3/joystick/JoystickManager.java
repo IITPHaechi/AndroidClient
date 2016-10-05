@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import iitp.project.haechi.purdueapps3.ApplicationController;
 import iitp.project.haechi.purdueapps3.NetworkService;
 import iitp.project.haechi.purdueapps3.R;
-import iitp.project.haechi.purdueapps3.joystick.JoyStick.JoyStickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,14 +37,13 @@ public class JoystickManager extends ViewGroup {
     private static final int RIGHT = R.id.joy2;
 
     JoyStick L_Joystick, R_Joystick;
-    JoyStickListener listener;
     private NetworkService networkService;
     ApplicationController app;
 
     JoyStickManagerListener jmListener;
 
     public interface JoyStickManagerListener {
-        void onActive(JoystickManager joystickManager);
+        void onActive(JoystickManager joystickManager, double angle, double power);
     }
 
     public JoystickManager() {
@@ -64,12 +62,6 @@ public class JoystickManager extends ViewGroup {
         R_Joystick.setTag(RIGHT);
     }
 
-    public void setJoystickListener(JoyStickListener listener){
-        this.listener = listener;
-        L_Joystick.setListener(listener);
-        R_Joystick.setListener(listener);
-    }
-
     public void setJoystickManagerListener(JoyStickManagerListener jmListener) {
         this.jmListener = jmListener;
     }
@@ -86,13 +78,10 @@ public class JoystickManager extends ViewGroup {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 //조이스틱 INACTIVE
-
                 break;
         }
-
-        if (L_Joystick.getListener() && R_Joystick.getListener())
-        {
-            if(jmListener != null) jmListener.onActive(this);
+        if (jmListener != null){
+            jmListener.onActive(this, 100f, 100f);
         }
 
         return true;
@@ -119,6 +108,24 @@ public class JoystickManager extends ViewGroup {
 
             }
         });
+    }
+
+    public void doAction(
+            int resourceId,
+            int duration,
+            int stopORmove
+    ){
+        int isLeft = resourceId == LEFT ? 1 : 0;
+        //소켓 명령 날리기
+    }
+
+    //매니져를 쓰면 발생하는 메소드
+    public void action(
+            JoystickManager manager,
+            double angle,
+            double power
+    ){
+
     }
 
 

@@ -19,7 +19,7 @@ import iitp.project.haechi.purdueapps3.joystick.JoystickManager;
 /**
  * Created by dnay2 on 2016-10-02.
  */
-public class JoyStickActivity extends AppCompatActivity implements JoyStick.JoyStickListener, JoystickManager.JoyStickManagerListener {
+public class JoyStickActivity extends AppCompatActivity implements JoystickManager.JoyStickManagerListener {
 
     private Camera mCamera = null;
     private CameraView mCameraView = null;
@@ -66,7 +66,6 @@ public class JoyStickActivity extends AppCompatActivity implements JoyStick.JoyS
         joy2.setButtonColor(Color.parseColor("#55ff0000"));
 
         mJoystickManager.setJoystick(joy1, joy2);
-        mJoystickManager.setJoystickListener(this);
         mJoystickManager.setJoystickManagerListener(this);
 
         setConsole();
@@ -102,15 +101,7 @@ public class JoyStickActivity extends AppCompatActivity implements JoyStick.JoyS
     }
 
     @Override
-    public void onMove(JoyStick joyStick, double angle, double power) {
-        mJoystickManager.move(joyStick.getId(), durationTime, isStopOrder);
-        String str = logText.getText().toString();
-        str += "\n" + isLeftWheel + "/" + durationTime + "/" + isStopOrder + "/" + commandpersec;
-        logText.setText(str);
-    }
-
-    @Override
-    public void onActive(JoystickManager manager) {
+    public void onActive(JoystickManager joystickManager, double angle, double power) {
 
     }
 }
