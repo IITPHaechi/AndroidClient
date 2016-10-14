@@ -1,12 +1,14 @@
 package iitp.project.haechi.purdueapps3.joystick;
 
+import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import iitp.project.haechi.purdueapps3.ApplicationController;
 import iitp.project.haechi.purdueapps3.NetworkService;
 import iitp.project.haechi.purdueapps3.R;
+import iitp.project.haechi.purdueapps3.socket.SocketClientTask;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,7 +16,7 @@ import retrofit2.Response;
 /**
  * Created by dnay2 on 2016-10-03.
  */
-public class JoystickManager extends ViewGroup {
+public class JoystickManager extends LinearLayout {
 
     private static JoystickManager instance;
 
@@ -28,31 +30,38 @@ public class JoystickManager extends ViewGroup {
     private long time;
 
     //바퀴에 대한 명령어
-    private static final int FRONT = 1;
-    private static final int STOP = 0;
-    private static final int BACK = -1;
+    private static final int MOVE_FRONT = 1;
+    private static final int MOVE_STOP = 0;
+    private static final int MOVE_BACK = -1;
+    private static final int MOVE_RIGHT = 4;
+    private static final int MOVE_LEFT = 3;
 
     //어느쪽 바퀴인지 식별
-    private static final int LEFT = R.id.joy1;
-    private static final int RIGHT = R.id.joy2;
+    private static final int LEFT = R.id.joyL;
+    private static final int RIGHT = R.id.joyR;
 
     JoyStick L_Joystick, R_Joystick;
     private NetworkService networkService;
     ApplicationController app;
 
+    SocketClientTask cTask;
+
     JoyStickManagerListener jmListener;
 
     public interface JoyStickManagerListener {
-        void onActive(JoystickManager joystickManager, double angle, double power);
+        void onActive(JoystickManager joystickManager);
     }
 
-    public JoystickManager() {
-        super(null, null, 0);
+    public JoystickManager(Context context) {
+        super(context, null);
     }
 
-    @Override
-    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+    public JoystickManager(Context context, AttributeSet attrs) {
+        super(context, attrs, 0);
+    }
 
+    public JoystickManager(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     public void setJoystick(JoyStick l_Joystick, JoyStick r_Joystick) {
@@ -65,29 +74,6 @@ public class JoystickManager extends ViewGroup {
     public void setJoystickManagerListener(JoyStickManagerListener jmListener) {
         this.jmListener = jmListener;
     }
-
-    //조이스틱을 만지고 있는 동안 루프
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                //조이스틱 ACTIVE
-
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                //조이스틱 INACTIVE
-                break;
-        }
-        if (jmListener != null){
-            jmListener.onActive(this, 100f, 100f);
-        }
-
-        return true;
-    }
-
-
 
     //명령 쿼리 날리기
     public void move(
@@ -110,41 +96,39 @@ public class JoystickManager extends ViewGroup {
         });
     }
 
-    public void doAction(
-            int resourceId,
-            int duration,
-            int stopORmove
-    ){
-        int isLeft = resourceId == LEFT ? 1 : 0;
-        //소켓 명령 날리기
+    //움직임 명령쿼리 가져오기
+    public void getMoving() {
+        Log.d("joystick", "발현");
+        String order = "";
+        if(cTask != null){
+            switch (movingRobot()){
+                case MOVE_FRONT:
+                    order = "left=1,right=1,time=1";
+                    break;
+                case MOVE_BACK:
+                    order = "left=-1,right=-1,time=1";
+                    break;
+                case MOVE_RIGHT:
+                    order = "left=1,right=0,time=1";
+                    break;
+                case MOVE_LEFT:
+                    order = "left=0,right=1,time=1";
+                    break;
+                case MOVE_STOP:
+                    order = "left=0,right=0,time=0";
+                    break;
+            }
+            cTask.actionSend(order);
+        }
     }
 
-    //매니져를 쓰면 발생하는 메소드
-    public void action(
-            JoystickManager manager,
-            double angle,
-            double power
-    ){
-
-    }
-
-
-    //움직임 명령 가져오기
-    public int getMoving(){
-        if(L_Joystick.getTouchDown() && R_Joystick.getTouchDown()){
-            //둘다 만지고 있는 경우
-            if(L_Joystick.angle > 1.0 && R_Joystick.angle > 1.0) return FRONT; //앞으로
-            if(L_Joystick.angle < -1.0 && R_Joystick.angle < -1.0) return BACK; //뒤로
-        } else if(L_Joystick.getTouchDown()){
-            //왼쪽만 만지고 있는 경우
-            if(L_Joystick.angle > 1.0) return FRONT;
-            if(L_Joystick.angle < -1.0) return BACK;
-        } else if(R_Joystick.getTouchDown()){
-            //오른쪽만 만지고 있는 경우
-            if(R_Joystick.angle > 1.0) return FRONT;
-            if(R_Joystick.angle < -1.0) return BACK;
-        } else return STOP;
-        return 0;
+    //움직여라 노예
+    public int movingRobot() {
+        if (L_Joystick.angle > 10.0 && R_Joystick.angle > 10.0) return MOVE_FRONT;
+        else if (L_Joystick.angle < -10.0 && R_Joystick.angle < -10.0) return MOVE_BACK;
+        else if (L_Joystick.angle > 10.0) return MOVE_LEFT;
+        else if (R_Joystick.angle > 10.0) return MOVE_RIGHT;
+        return MOVE_STOP;
     }
 
     //시스템 값 재설정
@@ -156,4 +140,9 @@ public class JoystickManager extends ViewGroup {
         this.movingDuration = movingDuration;
     }
 
+
+    //소켓 연결 가져오기
+    public void setcTask(SocketClientTask cTask) {
+        this.cTask = cTask;
+    }
 }

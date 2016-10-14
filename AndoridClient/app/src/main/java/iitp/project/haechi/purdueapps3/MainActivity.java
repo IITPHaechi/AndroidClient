@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btnSocket:
                     intent = new Intent(MainActivity.this, SocketActivity.class);
                     break;
+                case R.id.btnMyjoystick:
+                    intent = new Intent(MainActivity.this, MyJostickActivity.class);
+                    break;
             }
             startActivity(intent);
         }
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnCameraServer).setOnClickListener(bHandler);
         findViewById(R.id.btnRobotController).setOnClickListener(bHandler);
         findViewById(R.id.btnSocket).setOnClickListener(bHandler);
+        findViewById(R.id.btnMyjoystick).setOnClickListener(bHandler);
     }
 
 }

@@ -50,8 +50,10 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".SocketAction"
+            android:name=".SocketActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".MyJostickActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

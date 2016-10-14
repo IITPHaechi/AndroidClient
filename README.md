@@ -6,11 +6,16 @@ just practice
  Whenever, You'd better write To do list Or Need list(function)
 
 
- 
+
 ### Geusan Lim(Jacob)
  - Studying about Streaming service.
- 
- 
+
+
 ### Cholmin Kang(Steve)
  - Joystick for moving machine
  - VieoView for streaming from web url
+
+
+### 13.Oct.2016
+ - Joystick and control system
+ - joystick manager

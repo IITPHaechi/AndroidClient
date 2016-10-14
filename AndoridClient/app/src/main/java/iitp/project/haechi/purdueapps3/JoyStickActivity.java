@@ -42,7 +42,7 @@ public class JoyStickActivity extends AppCompatActivity implements JoystickManag
     private static ArrayList<String> commandArr = new ArrayList<>();
     TestAdapter durationAdater, commandAdater;
 
-    JoystickManager mJoystickManager = new JoystickManager();
+    JoystickManager mJoystickManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +57,15 @@ public class JoyStickActivity extends AppCompatActivity implements JoystickManag
 //        FrameLayout camera_view = (FrameLayout)findViewById(R.id.camera_view);
 //        camera_view.addView(mCameraView);
 
-        JoyStick joy1 = (JoyStick) findViewById(R.id.joy1);
+        JoyStick joy1 = (JoyStick) findViewById(R.id.joyL);
         joy1.setPadColor(Color.parseColor("#55ffffff"));
         joy1.setButtonColor(Color.parseColor("#55ff0000"));
 
-        JoyStick joy2 = (JoyStick) findViewById(R.id.joy2);
+        JoyStick joy2 = (JoyStick) findViewById(R.id.joyR);
         joy2.setPadColor(Color.parseColor("#55ffffff"));
         joy2.setButtonColor(Color.parseColor("#55ff0000"));
 
+        mJoystickManager = new JoystickManager(this);
         mJoystickManager.setJoystick(joy1, joy2);
         mJoystickManager.setJoystickManagerListener(this);
 
@@ -80,7 +81,7 @@ public class JoyStickActivity extends AppCompatActivity implements JoystickManag
 
         commandpersecList = (ListView) findViewById(R.id.commandperseclist);
         durationList = (ListView) findViewById(R.id.durationlist);
-        logText = (EditText) findViewById(R.id.logText);
+        logText = (EditText) findViewById(R.id.console);
 
         commandpersecList.setAdapter(commandAdater);
         durationList.setAdapter(durationAdater);
@@ -101,7 +102,7 @@ public class JoyStickActivity extends AppCompatActivity implements JoystickManag
     }
 
     @Override
-    public void onActive(JoystickManager joystickManager, double angle, double power) {
+    public void onActive(JoystickManager joystickManager) {
 
     }
 }
