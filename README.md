@@ -16,6 +16,8 @@ just practice
  - VieoView for streaming from web url
 
 
-### 13.Oct.2016
- - Joystick and control system
- - joystick manager
+### 14.Oct.2016
+ - maked NewJoyStick and Listener
+ - Push the order every 150ms
+ - we need to make StringTokenizer for receive the data as Map
+ - 현재 조이스틱 버벅임이 낮아졌는데 이게 최선인듯

@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import iitp.project.haechi.purdueapps3.cameraproject.CameraMasterMain;
-import iitp.project.haechi.purdueapps3.lightbutton.LightButton;
-import iitp.project.haechi.purdueapps3.videorec.CameraActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     //UI로직
@@ -17,24 +13,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = null;
             switch (view.getId()) {
-                case R.id.btnLight:
-                    intent = new Intent(MainActivity.this, LightButton.class);
-                    break;
-                case R.id.btnMove:
-                    intent = new Intent(MainActivity.this, MoveButton.class);
-                    break;
-                case R.id.btnCamera:
-                    intent = new Intent(MainActivity.this, CameraActivity.class);
-                    break;
-                case R.id.btnVideo:
-                    intent = new Intent(MainActivity.this, VideoViewActivity.class);
-                    break;
-                case R.id.btnCameraServer:
-                    intent = new Intent(MainActivity.this, CameraMasterMain.class);
-                    break;
-                case R.id.btnRobotController:
-                    intent = new Intent(MainActivity.this, JoyStickActivity.class);
-                    break;
                 case R.id.btnSocket:
                     intent = new Intent(MainActivity.this, SocketActivity.class);
                     break;
@@ -52,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //UI로직 사용
-        findViewById(R.id.btnLight).setOnClickListener(bHandler);
-        findViewById(R.id.btnMove).setOnClickListener(bHandler);
-        findViewById(R.id.btnCamera).setOnClickListener(bHandler);
-        findViewById(R.id.btnVideo).setOnClickListener(bHandler);
-        findViewById(R.id.btnCameraServer).setOnClickListener(bHandler);
-        findViewById(R.id.btnRobotController).setOnClickListener(bHandler);
         findViewById(R.id.btnSocket).setOnClickListener(bHandler);
         findViewById(R.id.btnMyjoystick).setOnClickListener(bHandler);
     }

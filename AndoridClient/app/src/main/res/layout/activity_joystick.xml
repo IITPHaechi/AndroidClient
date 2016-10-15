@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/camera_view"
+        android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -41,39 +41,31 @@
             android:layout_toRightOf="@id/commandperseclist" />
 
 
-        <iitp.project.haechi.purdueapps3.joystick.JoystickManager
-            android:id="@+id/manager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
+            android:id="@+id/joyL"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:layout_alignParentLeft="true" />
 
-            <iitp.project.haechi.purdueapps3.joystick.JoyStick
-                android:id="@+id/joyL"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true" />
+        <EditText
+            android:id="@+id/console"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/joyL"
+            android:focusable="false"
+            android:hint="console" />
 
-            <EditText
-                android:id="@+id/console"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@+id/joyL"
-                android:layout_weight="1"
-                android:focusable="false"
-                android:text="now \ncommand per sec : \nduration: \nwheel:\n" />
+        <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
+            android:id="@+id/joyR"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" />
 
-            <iitp.project.haechi.purdueapps3.joystick.JoyStick
-                android:id="@+id/joyR"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true" />
 
-        </iitp.project.haechi.purdueapps3.joystick.JoystickManager>
     </RelativeLayout>
 
 </RelativeLayout>

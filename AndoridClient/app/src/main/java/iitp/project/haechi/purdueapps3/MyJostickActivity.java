@@ -7,16 +7,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import iitp.project.haechi.purdueapps3.joystick.JoyStick;
-import iitp.project.haechi.purdueapps3.joystick.JoystickManager;
+import iitp.project.haechi.purdueapps3.joystick.NewJoyStick;
 import iitp.project.haechi.purdueapps3.socket.SocketClientTask;
 
 /**
  * Created by dnay2 on 2016-10-13.
  */
-public class MyJostickActivity extends AppCompatActivity implements JoystickManager.JoyStickManagerListener {
+public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.NewJoyStickListener {
 
     private static final String IP_ADDRESS = "172.24.1.1";
     private static final int PORT_ = 8888;
@@ -31,16 +29,16 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
     private static final int MOVE_RIGHT = 4;
     private static final int MOVE_LEFT = 3;
 
+    private static final int MOVE_LEFT_BACK = 5;
+    private static final int MOVE_RIGHT_BACK = 6;
+
     //통신을 관리
     SocketClientTask cTask;
     EditText console;
 
     //조이스틱을 관리
-    JoyStick joyL;
-    JoyStick joyR;
-    JoystickManager manager;
-    LinearLayout mManager;
-
+    NewJoyStick joyL;
+    NewJoyStick joyR;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,34 +46,12 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
         setContentView(R.layout.activity_joystick);
 
         console = (EditText) findViewById(R.id.console);
-        joyL = (JoyStick) findViewById(R.id.joyL);
-        joyR = (JoyStick) findViewById(R.id.joyR);
-
-//        joyL.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                getMoving();
-//                return false;
-//            }
-//        });
-//        joyR.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                getMoving();
-//                return false;
-//            }
-//        });
-
-//        mManager = (LinearLayout) findViewById(R.id.manager);
-//        manager = (JoystickManager) findViewById(R.id.manager);
-//        manager.setJoystick(joyL, joyR);
-//        manager.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                getMoving();
-//                return false;
-//            }
-//        });
+        joyL = (NewJoyStick) findViewById(R.id.joyL);
+        joyL.setTag("LEFT");
+        joyR = (NewJoyStick) findViewById(R.id.joyR);
+        joyR.setTag("RIGHT");
+        joyL.setListener(this);
+        joyR.setListener(this);
 
         findViewById(R.id.conn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +59,6 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
                 connBtn(view);
             }
         });
-
         findViewById(R.id.disconn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,8 +93,8 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
     }
 
     @Override
-    public void onActive(JoystickManager joystickManager) {
-        joystickManager.getMoving();
+    public void onMove(NewJoyStick.NewJoyStickListener listener, float power) {
+            getMoving();
     }
 
     //소켓 연결 버튼
@@ -134,11 +109,8 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
         }
     }
 
-    long mTime = 0;
-
     //움직임 명령쿼리 가져오기
     public void getMoving() {
-        if (System.currentTimeMillis() > mTime + 100) {
             String order = "";
             if (cTask != null) {
                 switch (movingRobot()) {
@@ -149,29 +121,42 @@ public class MyJostickActivity extends AppCompatActivity implements JoystickMana
                         order = "left=-1,right=-1,time=1";
                         break;
                     case MOVE_RIGHT:
-                        order = "left=1,right=0,time=1";
+                        order = "left=0,right=1,time=1";
                         break;
                     case MOVE_LEFT:
-                        order = "left=0,right=1,time=1";
+                        order = "left=1,right=0,time=1";
                         break;
                     case MOVE_STOP:
                         order = "left=0,right=0,time=0";
                         break;
+                    case MOVE_RIGHT_BACK:
+                        order = "left=0,right=-1,time=1";
+                        break;
+                    case MOVE_LEFT_BACK:
+                        order = "left=-1,right=0,time=1";
+                        break;
                 }
                 cTask.actionSend(order);
                 Log.d("joystick", "발현  :  " + order);
-                mTime = System.currentTimeMillis();
-            }
         }
     }
 
     //움직여라 노예
     public int movingRobot() {
-        if (joyL.getAngle() > 1.0 && joyR.getAngle() > 1.0) return MOVE_FRONT;
-        else if (joyL.getAngle() < -1.0 && joyR.getAngle() < -1.0) return MOVE_BACK;
-        else if (joyL.getAngle() > 1.0) return MOVE_LEFT;
-        else if (joyR.getAngle() > 1.0) return MOVE_RIGHT;
-        return MOVE_STOP;
+        if(joyL.getMoving() == MOVE_FRONT && joyR.getMoving() == MOVE_FRONT){//둘다 앞인 경우
+            return MOVE_FRONT;
+        } else if(joyL.getMoving() == MOVE_BACK && joyR.getMoving() == MOVE_BACK){//둘다 뒤인 경우
+            return MOVE_BACK;
+        } else if(joyL.getMoving() == MOVE_FRONT){//왼쪽만 앞인 경우
+            return MOVE_LEFT;
+        } else if(joyR.getMoving() == MOVE_FRONT){//오른쪽만 앞인 경우
+            return MOVE_RIGHT;
+        } else if(joyL.getMoving() == MOVE_BACK){//왼쪽만 뒤인 경우
+            return MOVE_LEFT_BACK;
+        } else if(joyR.getMoving() == MOVE_BACK){//오른쪽만 뒤인 경우
+            return MOVE_RIGHT_BACK;
+        } else//모두 스탑인 경우
+            return MOVE_STOP;
     }
 
 

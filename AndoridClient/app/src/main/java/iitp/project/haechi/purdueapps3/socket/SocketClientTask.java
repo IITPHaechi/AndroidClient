@@ -19,15 +19,6 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
     private static final String TEXT_FAILURE = "연결실패";
     private static final String TEXT_DISCONN = "연결해제";
 
-    private static final int FRONT = 1;
-    private static final int STOP = 0;
-    private static final int BACK = -1;
-
-    private String left = "left=";
-    private String right = "right=";
-    private String time = "time=1";
-    private String ordd = "";
-
     private String ipAddress;
     int portNumber;
     private Context context;
@@ -44,6 +35,16 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
 
     public void setConsole(EditText console) {
         this.console = console;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        if(console != null) consoleAdd(TEXT_CONN);
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+        if(console != null) consoleAdd(TEXT_DISCONN);
     }
 
     @Override
@@ -68,6 +69,8 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
             e.printStackTrace();
             publishProgress(TEXT_FAILURE);
             return false;
+        }finally {
+            disconnection();
         }
 
         return true;
