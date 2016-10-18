@@ -16,8 +16,8 @@ public class ApplicationController extends Application{
 
     final String baseURL="http://172.24.1.1";
 
-    private NetworkService networkService;
-    public NetworkService getNetworkService(){return networkService;}
+//    private NetworkService networkService;
+//    public NetworkService getNetworkService(){return networkService;}
 
     @Override
     public void onCreate() {
@@ -33,7 +33,7 @@ public class ApplicationController extends Application{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            networkService = retrofit.create(NetworkService.class);
+//            networkService = retrofit.create(NetworkService.class);
         }
     }
 }

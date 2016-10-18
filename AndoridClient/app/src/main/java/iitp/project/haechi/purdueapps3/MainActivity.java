@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btnMyjoystick:
                     intent = new Intent(MainActivity.this, MyJostickActivity.class);
                     break;
+                case R.id.btnVideoView:
+                    intent = new Intent(MainActivity.this, VideoViewActivity.class);
+                    break;
             }
             startActivity(intent);
         }
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //UI로직 사용
         findViewById(R.id.btnSocket).setOnClickListener(bHandler);
         findViewById(R.id.btnMyjoystick).setOnClickListener(bHandler);
+        findViewById(R.id.btnVideoView).setOnClickListener(bHandler);
     }
 
 }

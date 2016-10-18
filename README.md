@@ -21,3 +21,8 @@ just practice
  - Push the order every 150ms
  - we need to make StringTokenizer for receive the data as Map
  - 현재 조이스틱 버벅임이 낮아졌는데 이게 최선인듯
+
+### 17.Oct.2016
+ - maked WebView for streaming picam
+ - resoution is adjusting.
+ - 아 비디오뷰말고 웹뷰로 쓰까쓰자!!

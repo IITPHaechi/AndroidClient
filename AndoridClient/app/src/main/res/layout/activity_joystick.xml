@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,41 +24,44 @@
             android:layout_marginTop="50dp"
             android:text="disconn" />
 
-        <ListView
-            android:id="@+id/commandperseclist"
-            android:layout_width="200dp"
-            android:layout_height="150dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/durationlist"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:layout_toRightOf="@id/commandperseclist" />
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
-            android:id="@+id/joyL"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true" />
+                <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
+                    android:id="@+id/joyL"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
-        <EditText
-            android:id="@+id/console"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@+id/joyL"
-            android:focusable="false"
-            android:hint="console" />
+                <EditText
+                    android:id="@+id/console"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:focusable="false"
+                    android:hint="console" />
 
-        <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
-            android:id="@+id/joyR"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" />
+                <iitp.project.haechi.purdueapps3.joystick.NewJoyStick
+                    android:id="@+id/joyR"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </RelativeLayout>
