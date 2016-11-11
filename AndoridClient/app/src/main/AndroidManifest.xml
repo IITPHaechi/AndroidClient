@@ -46,14 +46,20 @@
         <activity android:name=".lightbutton.LightButton" />
         <activity android:name=".MoveButton" />
         <activity
-            android:name=".JoyStickActivity"
+            android:name=".MyJcodecVideoView"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".SocketActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MyJostickActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".MyJostickActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".NullActivity" />
+        <activity
+            android:name=".videoview.MjpegActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package iitp.project.haechi.purdueapps3.socket;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.EditText;
 
 import java.io.DataInputStream;
@@ -85,14 +86,16 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
 
     //콘솔 내용 갱신 메소드
     public void consoleAdd(String str) {
-        String s = console.getText().toString();
-        s += "\n" + str;
-        console.setText(s);
-        console.scrollTo(0, console.getLayout().getLineCount());
+        if(console != null){
+            String s = console.getText().toString();
+//            s += "\n" + str;
+            console.setText(str);
+            console.setSelection(console.length());
+        }
     }
 
     //보내기
-    public void actionSend(String order) {
+    public void actionSend(String order, long time) {
         if(mSocket != null){
             try {
                 dos.write(order.getBytes());
@@ -100,9 +103,10 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Log.d("joystick", "발현  :  " + order + "time : " + time % 10000);
             onProgressUpdate("나 : " + order);
         }else{
-            onProgressUpdate("연결이 안되어있음");
+//            onProgressUpdate("연결이 안되어있음");
         }
 
     }
@@ -119,6 +123,10 @@ public class SocketClientTask extends AsyncTask<Void, String, Boolean> {
         }catch (IOException e){
             e.printStackTrace();
         }
+        this.onCancelled();
     }
 
+    public void runThread(Thread thread){
+        thread.run();
+    }
 }

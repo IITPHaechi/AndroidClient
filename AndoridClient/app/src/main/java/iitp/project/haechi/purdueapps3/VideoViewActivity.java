@@ -10,11 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
-import iitp.project.haechi.purdueapps3.videoview.MyVideoView;
 
 /**
  * Created by dnay2 on 2016-09-28.
@@ -22,9 +21,9 @@ import iitp.project.haechi.purdueapps3.videoview.MyVideoView;
 public class VideoViewActivity extends AppCompatActivity {
 
 
-    MyVideoView videoView;
+    VideoView videoView;
     WebView webView;
-    private static final String webUrl = "http://172.24.1.1:8082/index.html";
+    private static final String webUrl = "http://172.24.1.1:8111/stream";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,9 +68,18 @@ public class VideoViewActivity extends AppCompatActivity {
     }
 
     private void setWebView(){
-        webView.setWebChromeClient(new WebChromeClient());
+//        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(webUrl);
+    }
+
+    private class MyWebViewClient extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
     private class MyWebChromeClient extends WebChromeClient implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener{
@@ -101,5 +109,12 @@ public class VideoViewActivity extends AppCompatActivity {
         public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
             return false;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(webView.isActivated())
+        webView.destroy();
     }
 }

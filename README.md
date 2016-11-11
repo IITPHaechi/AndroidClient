@@ -26,3 +26,6 @@ just practice
  - maked WebView for streaming picam
  - resoution is adjusting.
  - 아 비디오뷰말고 웹뷰로 쓰까쓰자!!
+
+### 10.Nov.2016
+ - 다른건 모르겠고 버튼 UI 수정함
