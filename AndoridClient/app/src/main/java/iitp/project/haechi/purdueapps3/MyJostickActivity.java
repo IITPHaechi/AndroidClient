@@ -1,5 +1,6 @@
 package iitp.project.haechi.purdueapps3;
 
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,9 +13,10 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 
+import iitp.project.haechi.purdueapps3.fragments.ChildAbstract;
 import iitp.project.haechi.purdueapps3.joystick.NewJoyStick;
 import iitp.project.haechi.purdueapps3.socket.SocketClientTask;
-import iitp.project.haechi.purdueapps3.views.WebPagerAdapter;
+import iitp.project.haechi.purdueapps3.views.WebFragmentPagerAdapter;
 
 /**
  * Created by dnay2 on 2016-10-13.
@@ -24,11 +26,17 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
     private static final String IP_ADDRESS = "172.24.1.1";
     private static final int PORT_ = 8888;
 
-    private static final String VIDEO_URL = "http://172.24.1.1:8111/stream";
+    private static final String VIDEO_NORMAL_URL = "http://172.24.1.1:9090/stream";
+    private static final String VIDEO_THERMO_URL = "http://172.24.2.139:9090/stream";
 
     private static final String MY_IP = "172.24.1.122";
     private static final int MY_PORT = 12345;
 
+
+    //쿼리문 짜기
+    private static final String LEFT = "left=";
+    private static final String RIGHT = "right=";
+    private static final String DISTINCT = ",";
 
     //바퀴에 대한 명령어
     private static final int MOVE_FRONT = 1;
@@ -44,19 +52,22 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
     SocketClientTask cTask;
     EditText console;
 
-    //조이스틱을 관리
+    //조이스틱 뷰
     NewJoyStick joyL;
     NewJoyStick joyR;
 
     //웹뷰 클라이언트
-    WebView webView;
+    WebView webView1;
+    WebView webView2;
+    WebView webView3;
     ViewPager mPager;
+    ChildAbstract[] items = new ChildAbstract[3];
     Button[] mBtn = new Button[3];
 
-    Handler uiHandler = new Handler(){
+    Handler uiHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 100:
                     getMoving();
                     break;
@@ -70,7 +81,9 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joystick);
 
-//        webView = (WebView) findViewById(R.id.webView);
+//        webView1 = (WebView) findViewById(R.id.sampleWebView1);
+//        webView2 = (WebView) findViewById(R.id.sampleWebView2);
+//        webView3 = (WebView) findViewById(R.id.sampleWebView3);
 
 
         console = (EditText) findViewById(R.id.console);
@@ -100,19 +113,22 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
 
     }
 
-    private void setViewPager(){
+    private void setViewPager() {
+        WebFragmentPagerAdapter fPagerAdapter = new WebFragmentPagerAdapter(getSupportFragmentManager(), items);
         mPager = (ViewPager) findViewById(R.id.viewpager);
-        mPager.setAdapter(new WebPagerAdapter(this));
+        mPager.setAdapter(fPagerAdapter);
+        mPager.setHorizontalScrollBarEnabled(true);
         mPager.setOffscreenPageLimit(3);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
+
             @Override
             public void onPageSelected(int position) {
                 moveButton(position);
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -124,36 +140,65 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
         moveButton(0);
     }
 
-    private void moveButton(int pos){
-        for(Button b : mBtn) b.setBackgroundColor(0x99444444);
+    private void moveButton(int pos) {
+        for (Button b : mBtn) b.setBackgroundColor(0x99444444);
         mBtn[pos].setBackgroundColor(0x99aaaaaa);
-        if(mPager.getCurrentItem() != pos) mPager.setCurrentItem(pos);
+        if (mPager.getCurrentItem() != pos) {
+            mPager.setCurrentItem(pos);
+        }
+        for (int i = 0; i < 3; i++) {
+            if (i == pos) {
+                ((WebFragmentPagerAdapter) mPager.getAdapter()).getAFragment(i).loadVideo();
+            } else {
+                ((WebFragmentPagerAdapter) mPager.getAdapter()).getAFragment(i).stopVideo();
+            }
+        }
     }
 
-    public void onCameraButtonChangeListener(View v){
-        switch (v.getId()){
-            case R.id.normalCam: moveButton(0);
+    public void onCameraButtonChangeListener(View v) {
+        switch (v.getId()) {
+            case R.id.normalCam:
+                moveButton(0);
                 break;
-            case R.id.thermoCam: moveButton(1);
+            case R.id.thermoCam:
+                moveButton(1);
                 break;
-            case R.id.iradiCam: moveButton(2);
+            case R.id.iradiCam:
+                moveButton(2);
                 break;
         }
     }
 
     private void setWebView() {
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(VIDEO_URL);
-    }
+        webView1.setWebViewClient(new MyWebViewClient());
+        webView1.getSettings().setJavaScriptEnabled(true);
+        webView1.loadUrl(VIDEO_NORMAL_URL);
 
+        webView2.setWebViewClient(new MyWebViewClient());
+        webView2.getSettings().setJavaScriptEnabled(true);
+        webView2.loadUrl(VIDEO_THERMO_URL);
+
+        webView3.setWebViewClient(new MyWebViewClient());
+        webView3.getSettings().setJavaScriptEnabled(true);
+        webView3.loadUrl(VIDEO_NORMAL_URL);
+    }
 
     private class MyWebViewClient extends WebViewClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(android.webkit.WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disconnection();
+        for (int i = 0; i < 3; i++) {
+            ((ChildAbstract) ((WebFragmentPagerAdapter) mPager.getAdapter()).getItem(i)).stopVideo();
+        }
+
     }
 
     private void connection() {
@@ -173,7 +218,7 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
 
     @Override
     public void onMove(NewJoyStick.NewJoyStickListener listener, float power) {
-            getMoving();
+        getMoving();
     }
 
     //소켓 연결 버튼

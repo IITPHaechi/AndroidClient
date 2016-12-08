@@ -8,45 +8,10 @@
     tools:context="iitp.project.haechi.purdueapps3.MainActivity">
 
     <Button
-        android:id="@+id/btnSocket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onMainButton"
-        android:text="socket" />
-
-    <Button
         android:id="@+id/btnMyjoystick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onMainButton"
         android:text="myjoystick" />
-
-    <Button
-        android:id="@+id/btnVideoView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onMainButton"
-        android:text="video view" />
-
-    <Button
-        android:id="@+id/btnJcodec"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onMainButton"
-        android:text="jcodec" />
-
-    <Button
-        android:id="@+id/btnNull"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onMainButton"
-        android:text="NULL" />
-
-    <Button
-        android:id="@+id/btnMjpeg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onMainButton"
-        android:text="MJPEG" />
 
 </LinearLayout>

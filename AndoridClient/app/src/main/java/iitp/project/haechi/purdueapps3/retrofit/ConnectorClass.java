@@ -9,9 +9,9 @@ import retrofit2.Response;
  */
 public class ConnectorClass {
 
-    Connector connector;
-    Call<String> call;
-    Response<String> result;
+    private Connector connector;
+    private Call<String> call;
+    private Response<String> result;
 
     public ConnectorClass() {
         connector = Connector.helper.create(Connector.class);
