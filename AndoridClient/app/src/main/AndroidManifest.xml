@@ -27,39 +27,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".videorec.CameraActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".VideoViewActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".cameraproject.CameraMasterMain"
-            android:screenOrientation="landscape" />
-        <activity android:name=".lightbutton.LightButton" />
-        <activity android:name=".MoveButton" />
-        <activity
-            android:name=".MyJcodecVideoView"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".SocketActivity"
-            android:screenOrientation="portrait" />
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".MyJostickActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".NullActivity" />
-        <activity
-            android:name=".videoview.MjpegActivity"
-            android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

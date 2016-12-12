@@ -1,4 +1,4 @@
-package iitp.project.haechi.purdueapps3.joystick;
+package iitp.project.haechi.purdueapps3.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

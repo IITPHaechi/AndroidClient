@@ -2,20 +2,16 @@ package iitp.project.haechi.purdueapps3;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 
 import iitp.project.haechi.purdueapps3.fragments.ChildAbstract;
-import iitp.project.haechi.purdueapps3.joystick.NewJoyStick;
 import iitp.project.haechi.purdueapps3.socket.SocketClientTask;
+import iitp.project.haechi.purdueapps3.views.NewJoyStick;
 import iitp.project.haechi.purdueapps3.views.WebFragmentPagerAdapter;
 
 /**
@@ -25,13 +21,6 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
 
     private static final String IP_ADDRESS = "172.24.1.1";
     private static final int PORT_ = 8888;
-
-    private static final String VIDEO_NORMAL_URL = "http://172.24.1.1:9090/stream";
-    private static final String VIDEO_THERMO_URL = "http://172.24.2.139:9090/stream";
-
-    private static final String MY_IP = "172.24.1.122";
-    private static final int MY_PORT = 12345;
-
 
     //쿼리문 짜기
     private static final String LEFT = "left=";
@@ -57,34 +46,14 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
     NewJoyStick joyR;
 
     //웹뷰 클라이언트
-    WebView webView1;
-    WebView webView2;
-    WebView webView3;
     ViewPager mPager;
     ChildAbstract[] items = new ChildAbstract[3];
     Button[] mBtn = new Button[3];
-
-    Handler uiHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 100:
-                    getMoving();
-                    break;
-            }
-        }
-    };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joystick);
-
-//        webView1 = (WebView) findViewById(R.id.sampleWebView1);
-//        webView2 = (WebView) findViewById(R.id.sampleWebView2);
-//        webView3 = (WebView) findViewById(R.id.sampleWebView3);
-
 
         console = (EditText) findViewById(R.id.console);
         joyL = (NewJoyStick) findViewById(R.id.joyL);
@@ -108,7 +77,6 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
         });
 
         //동영상 가져오기
-//        setWebView();
         setViewPager();
 
     }
@@ -166,28 +134,6 @@ public class MyJostickActivity extends AppCompatActivity implements NewJoyStick.
             case R.id.iradiCam:
                 moveButton(2);
                 break;
-        }
-    }
-
-    private void setWebView() {
-        webView1.setWebViewClient(new MyWebViewClient());
-        webView1.getSettings().setJavaScriptEnabled(true);
-        webView1.loadUrl(VIDEO_NORMAL_URL);
-
-        webView2.setWebViewClient(new MyWebViewClient());
-        webView2.getSettings().setJavaScriptEnabled(true);
-        webView2.loadUrl(VIDEO_THERMO_URL);
-
-        webView3.setWebViewClient(new MyWebViewClient());
-        webView3.getSettings().setJavaScriptEnabled(true);
-        webView3.loadUrl(VIDEO_NORMAL_URL);
-    }
-
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(android.webkit.WebView view, String url) {
-            view.loadUrl(url);
-            return true;
         }
     }
 
