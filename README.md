@@ -1,5 +1,5 @@
 # AndroidClient
-just practice
+Fire Fighting Robot control Client
 
 # library for app
  we make a library for UI and Logics
